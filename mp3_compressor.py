@@ -43,7 +43,6 @@ def main():
 
 def parsefolder(bitrate, dirname, names):
 	for name in names:
-		# TODO add support for AAC too
 		if name[-4:] == ".mp3" or name[-4:] == ".m4a":
 			infile = dirname+"/"+name
 			outfile = destpath+dirname+"/"+name[:-4]+".mp3"
@@ -54,9 +53,9 @@ def parsefolder(bitrate, dirname, names):
 def clearfolder(ignores, dirname, names):
 	realdir = dirname[len(destpath):]
 
-	# FIXME check for other suffixes as well
 	for name in names:
 		currentfile = realdir+"/"+name
+		# XXX make this check general, e.g. listing dir contents and checking names
 		if not (os.path.exists(currentfile) or os.path.exists(currentfile[:-4]+".m4a")):
 			print "missing: %s" % currentfile
 			os.remove(dirname+"/"+name)
@@ -64,8 +63,7 @@ def clearfolder(ignores, dirname, names):
 
 def encode(bitrate, infile, outfile):
 	# create the dir so that lame does not complain
-	# TODO use os.path here
-	os.system("mkdir -p '%s'" % os.path.dirname(outfile))
+	os.mkdir(os.path.dirname(outfile))
 
 	global tempnumber
 	tempfile = "mp3_packer-temp-%d.mp3" % tempnumber
