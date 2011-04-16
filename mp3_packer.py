@@ -65,7 +65,7 @@ def encode(bitrate, infile, outfile):
 	# create the dir so that lame does not complain
 	dir_of_infile = os.path.dirname(outfile)
 	if not os.path.exists(dir_of_infile):
-		os.mkdir(dir_of_infile)
+		os.makedirs(dir_of_infile)
 
 	global tempnumber
 	tempfile = "mp3_packer-temp-%d.mp3" % tempnumber
