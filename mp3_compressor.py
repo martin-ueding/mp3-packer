@@ -28,17 +28,23 @@ def main():
 
 	# encode the all new files
 	os.path.walk(srcpath, parsefolder, options.bitrate)
+
+	# delete files that are no longer needed
 	os.path.walk(destpath, clearfolder, None)
+
+	# TODO delete empty directories
 
 
 def parsefolder(bitrate, dirname, names):
 	for name in names:
+		# TODO add support for AAC too
 		if name[-4:] == ".mp3":
 			infile = dirname+"/"+name
 			outfile = destpath+dirname+"/"+name
 			if not os.path.exists(outfile):
 				encode(bitrate, infile, outfile)
 			
+
 def clearfolder(ignores, dirname, names):
 	realdir = dirname[len(destpath):]
 
@@ -50,7 +56,6 @@ def clearfolder(ignores, dirname, names):
 
 		else:
 			print "%s is still there" % currentfile
-			
 
 
 def encode(bitrate, infile, outfile):
@@ -62,8 +67,6 @@ def encode(bitrate, infile, outfile):
 	print gettext("encoding %s") % infile
 	command = 'lame --quiet -b %d "%s" "%s"' % (bitrate, infile, outfile)
 	os.system(command)
-
-
 
 
 if __name__ == "__main__":
