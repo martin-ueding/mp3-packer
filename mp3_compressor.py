@@ -63,7 +63,9 @@ def clearfolder(ignores, dirname, names):
 
 def encode(bitrate, infile, outfile):
 	# create the dir so that lame does not complain
-	os.mkdir(os.path.dirname(outfile))
+	dir_of_infile = os.path.dirname(outfile)
+	if not os.path.exists(dir_of_infile):
+		os.mkdir(dir_of_infile)
 
 	global tempnumber
 	tempfile = "mp3_packer-temp-%d.mp3" % tempnumber
