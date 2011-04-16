@@ -7,8 +7,13 @@ import optparse
 from gettext import gettext
 import os
 import sys
+import multiprocessing
+import Queue
 
-tempnumber = 1
+tempnumber_lock = multiprocessing.Lock()
+tempnumber = 0
+
+queue = multiprocessing.Queue()
 
 def main():
 	parser = optparse.OptionParser(usage=gettext("%prog path"), description=gettext("Traverses through a folder and creates a copy of the folder structure but compresses everything to a certain bitrate."))
@@ -35,6 +40,17 @@ def main():
 	# encode the all new files
 	os.path.walk(srcpath, parsefolder, options.bitrate)
 
+	number_of_processes = 2
+
+	processes = []
+	for i in range(number_of_processes):
+		processes.append(multiprocessing.Process(target=process_queue, args=()))
+
+	for p in processes:
+		p.start()
+	for p in processes:
+		p.join()
+
 	# delete files that are no longer needed
 	os.path.walk(destpath, clearfolder, None)
 
@@ -47,7 +63,19 @@ def parsefolder(bitrate, dirname, names):
 			infile = dirname+"/"+name
 			outfile = destpath+dirname+"/"+name[:-4]+".mp3"
 			if not os.path.exists(outfile):
-				encode(bitrate, infile, outfile)
+				global queue
+				queue.put((bitrate, infile, outfile))
+
+
+def process_queue():
+	try:
+		while True:
+			element = queue.get(True, 2)
+			encode(element[0], element[1], element[2])
+
+	except (Queue.Empty):
+		pass
+
 			
 
 def clearfolder(ignores, dirname, names):
@@ -67,9 +95,11 @@ def encode(bitrate, infile, outfile):
 	if not os.path.exists(dir_of_infile):
 		os.mkdir(dir_of_infile)
 
+	tempnumber_lock.acquire()
 	global tempnumber
 	tempfile = "mp3_packer-temp-%d.mp3" % tempnumber
 	tempnumber += 1
+	tempnumber_lock.release()
 
 	# encode the file
 	print gettext("encoding %s") % infile
@@ -78,7 +108,7 @@ def encode(bitrate, infile, outfile):
 	if engine == "ffmpeg":
 		command = 'ffmpeg -i "%s" -acodec libmp3lame -ac 2 -ab %dk "%s"' % (infile, bitrate, tempfile)
 
-	command = command + ' && mv "%s" "%s"' % (tempfile, outfile)
+	command = command + ' && mv -f "%s" "%s"' % (tempfile, outfile)
 
 	os.system(command)
 
