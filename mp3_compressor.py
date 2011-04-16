@@ -54,9 +54,6 @@ def clearfolder(ignores, dirname, names):
 			print "missing: %s" % currentfile
 			os.remove(dirname+"/"+name)
 
-		else:
-			print "%s is still there" % currentfile
-
 
 def encode(bitrate, infile, outfile):
 	# create the dir so that lame does not complain
