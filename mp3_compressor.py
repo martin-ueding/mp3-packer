@@ -8,6 +8,8 @@ from gettext import gettext
 import os
 import sys
 
+tempnumber = 1
+
 def main():
 	parser = optparse.OptionParser(usage=gettext("%prog path"), description=gettext("Traverses through a folder and creates a copy of the folder structure but compresses everything to a certain bitrate."))
 	parser.add_option("--bitrate", dest="bitrate", type="int", default=128, help=gettext("bitrate in kbit [default: %default]"))
@@ -44,7 +46,7 @@ def parsefolder(bitrate, dirname, names):
 		# TODO add support for AAC too
 		if name[-4:] == ".mp3" or name[-4:] == ".m4a":
 			infile = dirname+"/"+name
-			outfile = destpath+dirname+"/"+name
+			outfile = destpath+dirname+"/"+name[:-4]+".mp3"
 			if not os.path.exists(outfile):
 				encode(bitrate, infile, outfile)
 			
@@ -52,9 +54,10 @@ def parsefolder(bitrate, dirname, names):
 def clearfolder(ignores, dirname, names):
 	realdir = dirname[len(destpath):]
 
+	# FIXME check for other suffixes as well
 	for name in names:
 		currentfile = realdir+"/"+name
-		if not os.path.exists(currentfile):
+		if not (os.path.exists(currentfile) or os.path.exists(currentfile[:-4]+".m4a")):
 			print "missing: %s" % currentfile
 			os.remove(dirname+"/"+name)
 
@@ -64,14 +67,24 @@ def encode(bitrate, infile, outfile):
 	# TODO use os.path here
 	os.system("mkdir -p '%s'" % os.path.dirname(outfile))
 
+	global tempnumber
+	tempfile = "mp3_packer-temp-%d.mp3" % tempnumber
+	tempnumber += 1
+
 	# encode the file
 	print gettext("encoding %s") % infile
 	if engine == "lame":
-		command = 'lame --quiet -b %d "%s" "%s"' % (bitrate, infile, outfile)
+		command = 'lame --quiet -b %d "%s" "%s"' % (bitrate, infile, tempfile)
 	if engine == "ffmpeg":
-		command = 'ffmpeg -i "%s" -acodec libmp3lame -ac 2 -ab %dk "%s"' % (infile, bitrate, outfile)
+		command = 'ffmpeg -i "%s" -acodec libmp3lame -ac 2 -ab %dk "%s"' % (infile, bitrate, tempfile)
+
+	command = command + ' && mv "%s" "%s"' % (tempfile, outfile)
 
 	os.system(command)
+
+	# delete the tempfile in case anything went wrong
+	if os.path.exists(tempfile):
+		os.remove(tempfile)
 
 
 if __name__ == "__main__":
