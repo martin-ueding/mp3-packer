@@ -3,6 +3,8 @@
 
 # Copyright (c) 2011 Martin Ueding <dev@martin-ueding.de>
 
+# TODO rewrite as a bash script?
+
 import optparse
 from gettext import gettext
 import os
