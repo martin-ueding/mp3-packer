@@ -83,7 +83,7 @@ def encode(bitrate, infile, outfile):
     if engine == "lame":
         command = 'lame --quiet -b %d "%s" "%s"' % (bitrate, infile, tempfile)
     if engine == "ffmpeg":
-        command = 'ffmpeg -i "%s" -map_meta_data "%s":"%s" -acodec libmp3lame -ac 2 -ab %dk "%s"' % (infile, infile, tempfile, bitrate, tempfile)
+        command = 'ffmpeg -i "%s" -map_metadata "%s":"%s" -acodec libmp3lame -ac 2 -ab %dk "%s"' % (infile, infile, tempfile, bitrate, tempfile)
 
     command = command + ' && mv "%s" "%s"' % (tempfile, outfile)
 
