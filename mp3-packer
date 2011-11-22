@@ -44,10 +44,10 @@ def main():
     print gettext("writing to %s") % destpath
     print
 
-    # encode the all new files
+    # Encode the all new files.
     os.path.walk(srcpath, parsefolder, options.bitrate)
 
-    # delete files that are no longer needed
+    # Delete files that are no longer needed.
     os.path.walk(destpath, clearfolder, None)
 
 
@@ -107,7 +107,7 @@ def encode(bitrate, infile, outfile):
     """
     Encodes a file with the already set engine.
     """
-    # create the dir so that lame does not complain
+    # Create the dir so that lame does not complain.
     dir_of_infile = os.path.dirname(outfile)
     if not os.path.exists(dir_of_infile):
         os.makedirs(dir_of_infile)
@@ -116,7 +116,7 @@ def encode(bitrate, infile, outfile):
     tempfile = "mp3_packer-temp-%d.mp3" % tempnumber
     tempnumber += 1
 
-    # encode the file
+    # Encode the file.
     print gettext("encoding %s") % infile
     if engine == "lame":
         command = ['lame', '--quiet', '-b', bitrate, infile, tempfile]
