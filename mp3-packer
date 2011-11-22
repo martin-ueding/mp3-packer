@@ -26,6 +26,7 @@ def main():
     parser.add_option("--engine", dest="engine", default="ffmpeg", help=gettext("engine to use (ffmpeg or lame) [default: %default]"))
     parser.add_option("-v", dest="verbose", action="store_true", help=gettext("show more information"))
 
+    global options
     (options, args) = parser.parse_args()
 
     global engine
