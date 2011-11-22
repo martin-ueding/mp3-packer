@@ -108,9 +108,9 @@ def encode(bitrate, infile, outfile):
     # encode the file
     print gettext("encoding %s") % infile
     if engine == "lame":
-        command = 'lame --quiet -b %d "%s" "%s"' % (bitrate, infile, tempfile)
+        command = ['lame', '--quiet', '-b', bitrate, infile, tempfile]
     if engine == "ffmpeg":
-        command = 'ffmpeg -i "%s" -map_metadata "%s":"%s" -acodec libmp3lame -ac 2 -ab %dk "%s"' % (infile, infile, tempfile, bitrate, tempfile)
+        command = ['ffmpeg', '-i', infile, '-map_metadata', "%s:%s" % (infile, infile), '-acodec', 'libmp3lame', "-ac", 2, "-ab", "%dk" % bitrate, tempfile]
 
     command = command + ' && mv "%s" "%s"' % (tempfile, outfile)
 
