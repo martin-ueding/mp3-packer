@@ -43,6 +43,10 @@ def main():
 
 
 def parsefolder(bitrate, dirname, names):
+    """
+    Looks at each file in a folder and encodes them if they do not exist in the
+    destination folder.
+    """
     for name in names:
         if name[-4:] == ".mp3" or name[-4:] == ".m4a":
             infile = dirname+"/"+name
@@ -52,6 +56,11 @@ def parsefolder(bitrate, dirname, names):
             
 
 def clearfolder(ignores, dirname, names):
+    """
+    Looks at each file in a cache folder and checks whether the original file
+    for a chache file still exists in the original file tree. If not, the cache
+    file is deleted.
+    """
     realdir = dirname[len(destpath):]
 
     for name in names:
@@ -67,6 +76,9 @@ def clearfolder(ignores, dirname, names):
 
 
 def encode(bitrate, infile, outfile):
+    """
+    Encodes a file with the already set engine.
+    """
     # create the dir so that lame does not complain
     dir_of_infile = os.path.dirname(outfile)
     if not os.path.exists(dir_of_infile):
@@ -85,6 +97,7 @@ def encode(bitrate, infile, outfile):
 
     command = command + ' && mv "%s" "%s"' % (tempfile, outfile)
 
+    # XXX Use subprocess module here.
     os.system(command)
 
     # delete the tempfile in case anything went wrong
@@ -94,4 +107,3 @@ def encode(bitrate, infile, outfile):
 
 if __name__ == "__main__":
     main()
-
