@@ -3,11 +3,11 @@
 
 # Copyright (c) 2011 Martin Ueding <dev@martin-ueding.de>
 
-import optparse
 from gettext import gettext
+import optparse
 import os
-import sys
 import shutil
+import sys
 
 tempnumber = 1
 
