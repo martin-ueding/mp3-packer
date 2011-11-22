@@ -15,6 +15,7 @@ from gettext import gettext
 import optparse
 import os
 import shutil
+import subprocess
 import sys
 
 tempnumber = 1
@@ -112,14 +113,12 @@ def encode(bitrate, infile, outfile):
     if engine == "ffmpeg":
         command = ['ffmpeg', '-i', infile, '-map_metadata', "%s:%s" % (infile, infile), '-acodec', 'libmp3lame', "-ac", 2, "-ab", "%dk" % bitrate, tempfile]
 
-    command = command + ' && mv "%s" "%s"' % (tempfile, outfile)
-
-    # XXX Use subprocess module here.
-    os.system(command)
-
-    # delete the tempfile in case anything went wrong
-    if os.path.exists(tempfile):
-        os.remove(tempfile)
+    if subprocess.call(command) == 0:
+        os.rename(tempfile, outfile)
+    else:
+        # delete the tempfile in case anything went wrong
+        if os.path.exists(tempfile):
+            os.remove(tempfile)
 
 
 if __name__ == "__main__":
