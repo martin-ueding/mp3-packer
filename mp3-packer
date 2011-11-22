@@ -95,7 +95,6 @@ def clearfolder(ignores, dirname, names):
         currentfile = realdir+"/"+name
         cachefile = dirname+"/"+name
 
-        # XXX make this check general, e.g. listing dir contents and checking names
         if not (os.path.exists(currentfile) or os.path.exists(currentfile[:-4]+".m4a")):
             print "missing: %s" % currentfile
             if os.path.isdir(cachefile):
