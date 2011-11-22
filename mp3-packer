@@ -84,7 +84,7 @@ def clearfolder(ignores, dirname, names):
 
     # If there are no names, this directory is empty. So it can be deleted.
     if len(names) == 0:
-        os.remove(dirname)
+        os.rmdir(dirname)
 
     # Cut the cache dir from the path of the cache folder. This will yield the
     # position of the real file.
