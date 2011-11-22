@@ -54,6 +54,8 @@ def parsefolder(bitrate, dirname, names):
     """
     Looks at each file in a folder and encodes them if they do not exist in the
     destination folder.
+
+    This method is usually called by os.path.walk().
     """
     for name in names:
         if name[-4:] == ".mp3" or name[-4:] == ".m4a":
@@ -68,12 +70,19 @@ def clearfolder(ignores, dirname, names):
     Looks at each file in a cache folder and checks whether the original file
     for a chache file still exists in the original file tree. If not, the cache
     file is deleted.
+
+    This method is usually called by os.path.walk().
     """
+
+    # Cut the cache dir from the path of the cache folder. This will yield the
+    # position of the real file.
     realdir = dirname[len(destpath):]
 
     for name in names:
+        # Construct the names of the real and cache file.
         currentfile = realdir+"/"+name
         cachefile = dirname+"/"+name
+
         # XXX make this check general, e.g. listing dir contents and checking names
         if not (os.path.exists(currentfile) or os.path.exists(currentfile[:-4]+".m4a")):
             print "missing: %s" % currentfile
