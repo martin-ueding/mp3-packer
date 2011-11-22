@@ -120,7 +120,7 @@ def encode(bitrate, infile, outfile):
     if engine == "lame":
         command = ['lame', '--quiet', '-b', bitrate, infile, tempfile]
     if engine == "ffmpeg":
-        command = ['ffmpeg', '-i', infile, '-map_metadata', "%s:%s" % (infile, infile), '-acodec', 'libmp3lame', "-ac", 2, "-ab", "%dk" % bitrate, tempfile]
+        command = ['ffmpeg', '-i', infile, '-map_metadata', "%s:%s" % (infile, infile), '-acodec', 'libmp3lame', "-ac", "2", "-ab", "%dk" % bitrate, tempfile]
 
     if subprocess.call(command) == 0:
         os.rename(tempfile, outfile)
