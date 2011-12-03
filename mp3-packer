@@ -113,6 +113,7 @@ def encode(bitrate, infile, outfile):
         os.makedirs(dir_of_infile)
 
     global tempnumber
+    # TODO Hide this file from the user.
     tempfile = "mp3_packer-temp-%d.mp3" % tempnumber
     tempnumber += 1
 
