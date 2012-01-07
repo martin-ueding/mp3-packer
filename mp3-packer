@@ -3,13 +3,17 @@
 
 # Copyright (c) 2011 Martin Ueding <dev@martin-ueding.de>
 
-# Creates lower bitrate versions of all music files in a file tree.
-#
-# If you have a folder (and subfolders) full of music in a high bitrate, you
-# can use this program to create 128 kBit/s versions of each file. All
-# compressed files are cached in a hidden directory in your home directory. You
-# can then use a tool like rsync to move the compressed music to your space
-# limited mobile device.
+"""
+Creates lower bitrate versions of all music files in a file tree.
+
+If you have a folder (and subfolders) full of music in a high bitrate, you
+can use this program to create 128 kBit/s versions of each file. All
+compressed files are cached in a hidden directory in your home directory. You
+can then use a tool like rsync to move the compressed music to your space
+limited mobile device.
+"""
+
+__docformat__ = "javadoc en"
 
 from gettext import gettext
 import optparse
@@ -56,9 +60,10 @@ def parsefolder(bitrate, dirname, names):
     Looks at each file in a folder and encodes them if they do not exist in the
     destination folder.
 
-    This method is usually called by os.path.walk().
+    @param bitrate Rate of target MP3 files.
+    @param dirname Directory name.
+    @param names Files in this folder.
     """
-
     if options.verbose:
         print "Parsing %s" % dirname
 
@@ -70,15 +75,16 @@ def parsefolder(bitrate, dirname, names):
                 encode(bitrate, infile, outfile)
             
 
-def clearfolder(ignores, dirname, names):
+def clearfolder(ignored, dirname, names):
     """
     Looks at each file in a cache folder and checks whether the original file
     for a chache file still exists in the original file tree. If not, the cache
     file is deleted.
 
-    This method is usually called by os.path.walk().
+    @param ignored Ignored.
+    @param dirname Directory name.
+    @param names Files in this folder.
     """
-
     if options.verbose:
         print "Clearing %s" % dirname
 
@@ -106,6 +112,10 @@ def clearfolder(ignores, dirname, names):
 def encode(bitrate, infile, outfile):
     """
     Encodes a file with the already set engine.
+
+    @param bitrate Bitrate of target file.
+    @param infile Source audio file.
+    @param outfile Target audio file.
     """
     # Create the dir so that lame does not complain.
     dir_of_infile = os.path.dirname(outfile)
@@ -133,8 +143,11 @@ def encode(bitrate, infile, outfile):
         encode_cleanup(tempfile)
 
 def encode_cleanup(tempfile):
-    """Delete the tempfile in case anything went wrong."""
-
+    """
+    Delete the tempfile in case anything went wrong.
+    
+    @param tempfile File to delete.
+    """
     if os.path.exists(tempfile):
         os.remove(tempfile)
 
