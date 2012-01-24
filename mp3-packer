@@ -37,7 +37,7 @@ def main():
     engine = options.engine
 
     if len(args) != 1:
-        print gettext("call with -h to get help")
+        print gettext("Call with -h to get help.")
         sys.exit(1)
 
     srcpath = os.path.abspath(args[0])
