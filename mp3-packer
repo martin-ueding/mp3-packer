@@ -42,7 +42,7 @@ def main():
 
     srcpath = os.path.abspath(args[0])
     global destpath
-    destpath = os.path.expanduser("~/.mp3_packer/"+str(options.bitrate))
+    destpath = os.path.expanduser("~/.cache/mp3_packer/"+str(options.bitrate))
 
     print gettext("reading from %s") % srcpath
     print gettext("writing to %s") % destpath
