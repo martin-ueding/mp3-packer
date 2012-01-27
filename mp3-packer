@@ -9,8 +9,23 @@ Creates lower bitrate versions of all music files in a file tree.
 If you have a folder (and subfolders) full of music in a high bitrate, you
 can use this program to create 128 kBit/s versions of each file. All
 compressed files are cached in a hidden directory in your home directory. You
-can then use a tool like rsync to move the compressed music to your space
+can then use a tool like C{rsync} to move the compressed music to your space
 limited mobile device.
+
+Say have two tracks in your library::
+
+    /home/user/Musik/Artist/Album/14 - Track.mp3
+    /home/user/Musik/Artist/Album/06 - Song.mp3
+
+Call C{mp3-packer}::
+
+    mp3-packer /home/user/Musik
+
+After you call C{mp3-packer} you will have these files::
+
+    /home/user/.cache/mp3_packer/128/home/user/Musik/Artist/Album/14 - Track.mp3
+    /home/user/.cache/mp3_packer/128/home/user/Musik/Artist/Album/06 - Song.mp3
+
 """
 
 from gettext import gettext
@@ -21,6 +36,11 @@ import subprocess
 import sys
 
 tempnumber = 1
+"""
+Number the tempfiles start from.
+
+@type: int
+"""
 
 def main():
     parser = optparse.OptionParser(usage=gettext("%prog path"), description=gettext("Traverses through a folder and creates a copy of the folder structure but compresses everything to a certain bitrate."))
@@ -59,8 +79,11 @@ def parsefolder(bitrate, dirname, names):
     destination folder.
 
     @param bitrate: Rate of target MP3 files.
+    @type bitrate: int
     @param dirname: Directory name.
+    @type dirname: str
     @param names: Files in this folder.
+    @type names: list
     """
     if options.verbose:
         print "Parsing %s" % dirname
@@ -81,7 +104,9 @@ def clearfolder(ignored, dirname, names):
 
     @param ignored: Ignored.
     @param dirname: Directory name.
+    @type dirname: str
     @param names: Files in this folder.
+    @type names: list
     """
     if options.verbose:
         print "Clearing %s" % dirname
@@ -112,8 +137,11 @@ def encode(bitrate, infile, outfile):
     Encodes a file with the already set engine.
 
     @param bitrate: Bitrate of target file.
+    @type bitrate: int
     @param infile: Source audio file.
+    @type infile: str
     @param outfile: Target audio file.
+    @type outfile: str
     """
     # Create the dir so that lame does not complain.
     dir_of_infile = os.path.dirname(outfile)
@@ -145,6 +173,7 @@ def encode_cleanup(tempfile):
     Delete the tempfile in case anything went wrong.
     
     @param tempfile: File to delete.
+    @type tempfile: str
     """
     if os.path.exists(tempfile):
         os.remove(tempfile)
