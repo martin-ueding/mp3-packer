@@ -5,7 +5,7 @@ pythonfiles:=$(wildcard *.py)
 epydoc: html/index.html
 
 html/index.html: mp3-packer $(pythonfiles)
-	epydoc $^
+	epydoc -v $^
 
 .PHONY: clean
 clean:
