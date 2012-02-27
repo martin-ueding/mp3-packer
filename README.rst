@@ -1,6 +1,5 @@
 mp3 packer
 ==========
-
 Creates lower bitrate versions of all music files in a file tree.
 
 If you have a folder (and subfolders) full of music in a high bitrate,
@@ -9,9 +8,9 @@ compressed files are cached in a hidden directory in your home
 directory. You can then use a tool like ``rsync`` to move the compressed
 music to your space limited mobile device.
 
+
 usage
 -----
-
 Say have two tracks in your library:
 
 ::
@@ -31,4 +30,3 @@ After you call ``mp3-packer`` you will have these files::
 
     /home/user/.cache/mp3_packer/128/home/user/Musik/Artist/Album/14 - Track.mp3
     /home/user/.cache/mp3_packer/128/home/user/Musik/Artist/Album/06 - Song.mp3
-
