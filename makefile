@@ -17,4 +17,7 @@ clean:
 	$(RM) mp3-packerc
 
 install:
-	gzip -c mp3-packer.1 $(DESTDIR)/usr/share/man/man1/mp3-packer.1.gz
+	mkdir -p $(DESTDIR)/usr/share/man/man1/
+	gzip -c mp3-packer.1 > $(DESTDIR)/usr/share/man/man1/mp3-packer.1.gz
+	mkdir -p $(DESTDIR)/usr/bin/
+	install mp3-packer $(DESTDIR)/usr/bin/
