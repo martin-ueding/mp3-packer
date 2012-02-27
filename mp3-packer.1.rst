@@ -39,7 +39,7 @@ FILES
 =====
 The compressed versions are stored in ``$HOME/.cache/mp3_packer/``. In that
 folder, a folder to each bitrate is created. The whole file hierarchy is
-preserved, see EXAMPLE.
+preserved, see EXAMPLE_.
 
 
 EXAMPLE
