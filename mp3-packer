@@ -18,8 +18,10 @@ tempnumber = 1
 """
 Number the tempfiles start from.
 
-@type: int
+:type: int
 """
+
+__docformat__ = "restructuredtext en"
 
 def main():
     parser = optparse.OptionParser(usage=gettext("%prog path"), description=gettext("Traverses through a folder and creates a copy of the folder structure but compresses everything to a certain bitrate."))
@@ -57,18 +59,18 @@ def parsefolder(bitrate, dirname, names):
     Looks at each file in a folder and encodes them if they do not exist in the
     destination folder.
 
-    @param bitrate: Rate of target MP3 files.
-    @type bitrate: int
-    @param dirname: Directory name.
-    @type dirname: str
-    @param names: Files in this folder.
-    @type names: list
+    :param bitrate: Rate of target MP3 files.
+    :type bitrate: int
+    :param dirname: Directory name.
+    :type dirname: str
+    :param names: Files in this folder.
+    :type names: list
     """
     if options.verbose:
         print "Parsing %s" % dirname
 
     for name in names:
-        if name[-4:] == ".mp3" or name[-4:] == ".m4a":
+        if any(map(lambda x: name.endswith(x), [".mp3", ".m4a", ".flac"])):
             infile = dirname+"/"+name
             outfile = destpath+dirname+"/"+name[:-4]+".mp3"
             if not os.path.exists(outfile):
@@ -81,11 +83,11 @@ def clearfolder(ignored, dirname, names):
     for a chache file still exists in the original file tree. If not, the cache
     file is deleted.
 
-    @param ignored: Ignored.
-    @param dirname: Directory name.
-    @type dirname: str
-    @param names: Files in this folder.
-    @type names: list
+    :param ignored: Ignored.
+    :param dirname: Directory name.
+    :type dirname: str
+    :param names: Files in this folder.
+    :type names: list
     """
     if options.verbose:
         print "Clearing %s" % dirname
@@ -115,12 +117,12 @@ def encode(bitrate, infile, outfile):
     """
     Encodes a file with the already set engine.
 
-    @param bitrate: Bitrate of target file.
-    @type bitrate: int
-    @param infile: Source audio file.
-    @type infile: str
-    @param outfile: Target audio file.
-    @type outfile: str
+    :param bitrate: Bitrate of target file.
+    :type bitrate: int
+    :param infile: Source audio file.
+    :type infile: str
+    :param outfile: Target audio file.
+    :type outfile: str
     """
     # Create the dir so that lame does not complain.
     dir_of_infile = os.path.dirname(outfile)
@@ -152,8 +154,8 @@ def encode_cleanup(tempfile):
     """
     Delete the tempfile in case anything went wrong.
     
-    @param tempfile: File to delete.
-    @type tempfile: str
+    :param tempfile: File to delete.
+    :type tempfile: str
     """
     if os.path.exists(tempfile):
         os.remove(tempfile)
