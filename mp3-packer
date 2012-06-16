@@ -91,7 +91,7 @@ def parsefolder(bitrate, dirname, names):
             outfile = destpath+dirname+"/"+name[:-4]+".mp3"
             if not os.path.exists(outfile):
                 encode(bitrate, infile, outfile)
-            
+
 
 def clearfolder(ignored, dirname, names):
     """
@@ -169,7 +169,7 @@ def encode(bitrate, infile, outfile):
 def encode_cleanup(tempfile):
     """
     Delete the tempfile in case anything went wrong.
-    
+
     :param tempfile: File to delete.
     :type tempfile: str
     """
