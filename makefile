@@ -30,6 +30,8 @@ html/index.html: mp3-packer $(pythonfiles)
 clean:
 	$(RM) *.pyc
 	$(RM) -r html
+	$(RM) mp3-packer.1
+	$(RM) mp3-packer.1.gz
 	$(RM) mp3-packerc
 
 install:
