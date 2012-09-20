@@ -160,12 +160,12 @@ def encode(bitrate, infile, outfile):
         command = ['ffmpeg', '-i', infile, '-map_metadata', "%s:%s" % (infile, infile), '-acodec', 'libmp3lame', "-ac", "2", "-ab", "%dk" % bitrate, tempfile]
 
     try:
-        if subprocess.call(command) == 0:
-            os.rename(tempfile, outfile)
-        else:
-            encode_cleanup(tempfile)
-    except KeyboardInterrupt:
+        subprocess.check_call(command)
+    except (KeyboardInterrupt, subprocess.CalledProcessError):
         encode_cleanup(tempfile)
+    else:
+        os.rename(tempfile, outfile)
+
 
 
 def encode_cleanup(tempfile):
