@@ -88,8 +88,10 @@ def parsefolder(bitrate, dirname, names):
     for name in names:
         if any(map(lambda x: name.endswith(x), [".mp3", ".m4a", ".flac"])):
             infile = dirname+"/"+name
-            outfile = destpath+dirname+"/"+name[:-4]+".mp3"
+            nameparts = infile.split('.')
+            outfile = destpath + '.'.join(nameparts[:-1]) + ".mp3"
             if not os.path.exists(outfile):
+                print "Encoding\n\t{infile}\nto\n\t{outfile}".format(infile=infile, outfile=outfile)
                 encode(bitrate, infile, outfile)
 
 
