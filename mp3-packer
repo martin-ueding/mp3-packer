@@ -91,7 +91,6 @@ def parsefolder(bitrate, dirname, names):
             nameparts = infile.split('.')
             outfile = destpath + '.'.join(nameparts[:-1]) + ".mp3"
             if not os.path.exists(outfile):
-                print "Encoding\n\t{infile}\nto\n\t{outfile}".format(infile=infile, outfile=outfile)
                 encode(bitrate, infile, outfile)
 
 
