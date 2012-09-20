@@ -136,7 +136,6 @@ def clearfolder(ignored, dirname, names):
         else:
             for suffix in suffixes:
                 with_suffix = no_suffix+suffix
-                print "Checking", with_suffix
                 if os.path.exists(with_suffix):
                     missing = False
                     break
