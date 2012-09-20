@@ -143,9 +143,9 @@ def encode(bitrate, infile, outfile):
     :type outfile: str
     """
     # Create the dir so that lame does not complain.
-    dir_of_infile = os.path.dirname(outfile)
-    if not os.path.exists(dir_of_infile):
-        os.makedirs(dir_of_infile)
+    dir_of_outfile = os.path.dirname(outfile)
+    if not os.path.exists(dir_of_outfile):
+        os.makedirs(dir_of_outfile)
 
     global tempnumber
     # TODO Hide this file from the user.
