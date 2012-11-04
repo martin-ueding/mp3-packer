@@ -99,7 +99,6 @@ def parsefolder(bitrate, dirname, names):
             if not os.path.exists(outfile):
                 encode(bitrate, infile, outfile)
 
-
 def clearfolder(dirname, names):
     """
     Looks at each file in a cache folder and checks whether the original file
@@ -148,7 +147,6 @@ def clearfolder(dirname, names):
             else:
                 os.remove(cachefile)
 
-
 def encode(bitrate, infile, outfile):
     """
     Encodes a file with the already set engine.
@@ -193,7 +191,6 @@ def encode_cleanup(tempfile):
     """
     if os.path.exists(tempfile):
         os.remove(tempfile)
-
 
 if __name__ == "__main__":
     main()
