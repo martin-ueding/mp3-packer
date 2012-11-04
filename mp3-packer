@@ -47,7 +47,7 @@ __docformat__ = "restructuredtext en"
 def main():
     parser = optparse.OptionParser(usage=gettext("%prog path"), description=gettext("Traverses through a folder and creates a copy of the folder structure but compresses everything to a certain bitrate."))
     parser.add_option("--bitrate", dest="bitrate", type="int", default=128, help=gettext("bitrate in kbit [default: %default]"))
-    parser.add_option("--engine", dest="engine", default="ffmpeg", help=gettext("engine to use (ffmpeg or lame) [default: %default]"))
+    parser.add_option("--engine", dest="engine", default="avconv", help=gettext("engine to use (avconv, ffmpeg or lame) [default: %default]"))
     parser.add_option("-v", dest="verbose", action="store_true", help=gettext("show more information"))
 
     global options
