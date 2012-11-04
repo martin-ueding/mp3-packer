@@ -69,11 +69,12 @@ def main():
     print()
 
     # Encode the all new files.
-    os.path.walk(srcpath, parsefolder, options.bitrate)
+    for root, dirs, files in os.walk(srcpath):
+        parsefolder(options.bitrate, root, files)
 
     # Delete files that are no longer needed.
-    os.path.walk(destpath, clearfolder, None)
-
+    for root, dirs, files in os.walk(destpath):
+        clearfolder(root, dirs + files)
 
 def parsefolder(bitrate, dirname, names):
     """
@@ -99,7 +100,7 @@ def parsefolder(bitrate, dirname, names):
                 encode(bitrate, infile, outfile)
 
 
-def clearfolder(ignored, dirname, names):
+def clearfolder(dirname, names):
     """
     Looks at each file in a cache folder and checks whether the original file
     for a chache file still exists in the original file tree. If not, the cache
@@ -182,8 +183,6 @@ def encode(bitrate, infile, outfile):
         encode_cleanup(tempfile)
     else:
         os.rename(tempfile, outfile)
-
-
 
 def encode_cleanup(tempfile):
     """
