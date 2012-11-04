@@ -171,9 +171,24 @@ def encode(bitrate, infile, outfile):
     # Encode the file.
     print(gettext("encoding %s") % infile)
     if engine == "lame":
-        command = ['lame', '--quiet', '-b', bitrate, infile, tempfile]
+        command = [ 'lame', '--quiet', '-b', bitrate, infile, tempfile ]
     if engine == "ffmpeg":
-        command = ['ffmpeg', '-i', infile, '-map_metadata', "0:0", '-acodec', 'libmp3lame', "-ac", "2", "-ab", "%dk" % bitrate, tempfile]
+        command = [
+            'ffmpeg',
+            '-i', infile,
+            '-map_metadata', "0:0",
+            '-acodec', 'libmp3lame',
+            "-ac", "2",
+            "-ab", "%dk" % bitrate,
+            tempfile,
+        ]
+    if engine == "avconv":
+        command = [
+            "avconv",
+            '-i', infile,
+            "-b", "%dk" % bitrate,
+            tempfile,
+        ]
 
     try:
         subprocess.check_call(command)
