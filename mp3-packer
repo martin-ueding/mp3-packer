@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2011-2012 Martin Ueding <dev@martin-ueding.de>
@@ -57,16 +57,16 @@ def main():
     engine = options.engine
 
     if len(args) != 1:
-        print gettext("Call with -h to get help.")
+        print(gettext("Call with -h to get help."))
         sys.exit(1)
 
     srcpath = os.path.abspath(args[0])
     global destpath
     destpath = os.path.expanduser("~/.cache/mp3_packer/"+str(options.bitrate))
 
-    print gettext("reading from %s") % srcpath
-    print gettext("writing to %s") % destpath
-    print
+    print(gettext("reading from %s") % srcpath)
+    print(gettext("writing to %s") % destpath)
+    print()
 
     # Encode the all new files.
     os.path.walk(srcpath, parsefolder, options.bitrate)
@@ -88,10 +88,10 @@ def parsefolder(bitrate, dirname, names):
     :type names: list
     """
     if options.verbose:
-        print "Parsing %s" % dirname
+        print("Parsing %s" % dirname)
 
     for name in names:
-        if any(map(lambda x: name.endswith(x), suffixes)):
+        if any([name.endswith(x) for x in suffixes]):
             infile = dirname+"/"+name
             nameparts = infile.split('.')
             outfile = destpath + '.'.join(nameparts[:-1]) + ".mp3"
@@ -112,7 +112,7 @@ def clearfolder(ignored, dirname, names):
     :type names: list
     """
     if options.verbose:
-        print "Clearing %s" % dirname
+        print("Clearing %s" % dirname)
 
     # If there are no names, this directory is empty. So it can be deleted.
     if len(names) == 0:
@@ -141,7 +141,7 @@ def clearfolder(ignored, dirname, names):
                     break
 
         if missing:
-            print "missing: %s" % currentfile
+            print("missing: %s" % currentfile)
             if os.path.isdir(cachefile):
                 shutil.rmtree(cachefile)
             else:
@@ -170,7 +170,7 @@ def encode(bitrate, infile, outfile):
     tempnumber += 1
 
     # Encode the file.
-    print gettext("encoding %s") % infile
+    print(gettext("encoding %s") % infile)
     if engine == "lame":
         command = ['lame', '--quiet', '-b', bitrate, infile, tempfile]
     if engine == "ffmpeg":
