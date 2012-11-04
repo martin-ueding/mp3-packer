@@ -37,7 +37,7 @@ Number the tempfiles start from.
 :type: int
 """
 
-suffixes = [".mp3", ".m4a", ".flac"]
+suffixes = [".mp3", ".m4a", ".flac", ".ogg"]
 """
 Possible suffixes for music files.
 """
