@@ -1,4 +1,4 @@
-# Copyright (c) 2012 Martin Ueding <dev@martin-ueding.de>
+# Copyright © 2012-2013 Martin Ueding <dev@martin-ueding.de>
 
 ###############################################################################
 #                                   License                                   #
@@ -21,7 +21,7 @@ pythonfiles:=$(wildcard *.py)
 mp3-packer.1: mp3-packer.1.rst
 	rst2man $< $@
 
-doc: html/index.html
+html: html/index.html
 
 html/index.html: mp3-packer $(pythonfiles)
 	epydoc -v $^
